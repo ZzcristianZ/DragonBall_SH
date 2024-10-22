@@ -1,16 +1,19 @@
 package nombreDelPaquete;
 
-import java.awt.*;
+import javax.swing.ImageIcon;
+import java.awt.Graphics;
 
 public class Proyectil {
     private int x, y;
-    private int ancho = 5, alto = 5;
+    private int ancho = 35, alto = 35; // Ajustar tamaño del proyectil
     private int velocidad = 5;
-    private int daño = 5; // Daño del proyectil
+    private int daño = 5;
+    private ImageIcon imagen;
 
     public Proyectil(int x, int y) {
         this.x = x;
         this.y = y;
+        imagen = new ImageIcon("C:\\Users\\ASUS\\OneDrive\\Escritorio\\Juego_heroes\\src\\recursos\\kamehameha.gif"); // Ruta a tu imagen GIF
     }
 
     public void move() {
@@ -18,8 +21,7 @@ public class Proyectil {
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.YELLOW);
-        g.fillRect(x, y, ancho, alto);
+        g.drawImage(imagen.getImage(), x, y, ancho, alto, null);
     }
 
     public boolean haImpactado(Jefe jefe) {
@@ -28,5 +30,14 @@ public class Proyectil {
 
     public int getDaño() {
         return daño;
+    }
+
+    // Añadir métodos getX y getY
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

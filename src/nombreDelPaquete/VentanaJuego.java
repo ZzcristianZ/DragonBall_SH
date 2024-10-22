@@ -10,8 +10,8 @@ public class VentanaJuego extends JFrame {
     private PanelJuego panelJuego;
 
     public VentanaJuego() {
-        setTitle("Juego 2D");
-        setSize(800, 600);
+        setTitle("Dragon Ball Super Heroes");
+        setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
