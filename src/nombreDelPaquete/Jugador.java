@@ -5,9 +5,10 @@ import java.awt.event.KeyEvent;
 
 public class Jugador {
     private int x, y;
-    private int ancho = 20, alto = 20;
     private int dx, dy;
     private int panelAncho, panelAlto;
+    private int ancho = 20, alto = 20; // Tamaño del cuadrado
+    private boolean[] teclasPresionadas = new boolean[256]; // Array para registrar teclas presionadas
 
     public Jugador(int x, int y) {
         this.x = x;
@@ -15,6 +16,22 @@ public class Jugador {
     }
 
     public void move() {
+        if (teclasPresionadas[KeyEvent.VK_A]) {
+            dx = -2;
+        } else if (teclasPresionadas[KeyEvent.VK_D]) {
+            dx = 2;
+        } else {
+            dx = 0;
+        }
+
+        if (teclasPresionadas[KeyEvent.VK_W]) {
+            dy = -2;
+        } else if (teclasPresionadas[KeyEvent.VK_S]) {
+            dy = 2;
+        } else {
+            dy = 0;
+        }
+
         x += dx;
         y += dy;
 
@@ -34,40 +51,18 @@ public class Jugador {
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.BLUE);
+        g.setColor(Color.ORANGE);
         g.fillRect(x, y, ancho, alto);
     }
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_A) {
-            dx = -2;
-        }
-
-        if (key == KeyEvent.VK_D) {
-            dx = 2;
-        }
-
-        if (key == KeyEvent.VK_W) {
-            dy = -2;
-        }
-
-        if (key == KeyEvent.VK_S) {
-            dy = 2;
-        }
+        teclasPresionadas[key] = true;
     }
 
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_A || key == KeyEvent.VK_D) {
-            dx = 0;
-        }
-
-        if (key == KeyEvent.VK_W || key == KeyEvent.VK_S) {
-            dy = 0;
-        }
+        teclasPresionadas[key] = false;
     }
 
     public void setPanelSize(int ancho, int alto) {
