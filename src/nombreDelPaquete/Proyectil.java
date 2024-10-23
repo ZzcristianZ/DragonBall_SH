@@ -2,19 +2,28 @@ package nombreDelPaquete;
 
 import javax.swing.ImageIcon;
 import java.awt.Graphics;
+import java.awt.Image;
 
 public class Proyectil {
     private int x, y;
-    private int ancho = 35, alto = 35; // Ajustar tamaño del proyectil
+    private int ancho = 30, alto = 30; // Dimensiones del proyectil ajustadas
     private int velocidad = 5;
-    private int daño = 5;
+    private int daño;
     private ImageIcon imagen;
+    
 
-    public Proyectil(int x, int y) {
+    
+
+
+    public Proyectil(int x, int y, int daño, String rutaImagen) {
         this.x = x;
         this.y = y;
-        imagen = new ImageIcon("C:\\Users\\ASUS\\OneDrive\\Escritorio\\Juego_heroes\\src\\recursos\\kamehameha.gif"); // Ruta a tu imagen GIF
+        this.daño = daño;
+        imagen = new ImageIcon(rutaImagen); // Cargar la imagen específica
+        Image imagenRedimensionada = imagen.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+        imagen = new ImageIcon(imagenRedimensionada);
     }
+    
 
     public void move() {
         x += velocidad;
@@ -25,14 +34,17 @@ public class Proyectil {
     }
 
     public boolean haImpactado(Jefe jefe) {
-        return x + ancho >= jefe.getX() && y >= jefe.getY() && y <= jefe.getY() + jefe.getAlto();
+        int centroX = x + ancho / 2;
+        int centroY = y + alto / 2;
+
+        return centroX >= jefe.getX() && centroX <= jefe.getX() + jefe.getAncho() &&
+               centroY >= jefe.getY() && centroY <= jefe.getY() + jefe.getAlto();
     }
 
     public int getDaño() {
         return daño;
     }
 
-    // Añadir métodos getX y getY
     public int getX() {
         return x;
     }

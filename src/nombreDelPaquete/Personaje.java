@@ -89,8 +89,12 @@ public class Personaje {
         return alto;
     }
 
-    // Añadir método getVida
     public int getVida() {
         return vida;
+    }
+
+    // Añadir método getDaño
+    public int getDaño() {
+        return daño;
     }
 }

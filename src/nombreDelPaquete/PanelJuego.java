@@ -27,7 +27,7 @@ public class PanelJuego extends JPanel {
 
 
 
-        
+    
     public PanelJuego() {
         setFocusable(true);
         setBackground(Color.BLACK);
@@ -36,7 +36,7 @@ public class PanelJuego extends JPanel {
 
         
 
-        jefe = new Jefe(650, 250, 200); // Vida del jefe: 200
+        jefe = new Jefe(650, 250, 500); // Vida del jefe: 200
         jefe.setPanelSize(800, 600);
         proyectiles = new ArrayList<>();
         balas = 30;
@@ -100,6 +100,10 @@ public class PanelJuego extends JPanel {
         int eleccion = JOptionPane.showOptionDialog(this, "Selecciona tu personaje", "Selección de Personaje",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
     
+        if (eleccion == JOptionPane.CLOSED_OPTION) {
+            System.exit(0); // Salir si se cierra la ventana sin seleccionar
+        }
+    
         if (eleccion == 0) {
             personaje = new Heroe(50, 300);
             nombrePersonaje = "Goku";
@@ -109,6 +113,7 @@ public class PanelJuego extends JPanel {
         }
         personaje.setPanelSize(800, 600); // Ajustar tamaño del panel
     }
+    
     
 
     public void updateGame() {
@@ -133,8 +138,14 @@ public class PanelJuego extends JPanel {
     }
 
     private void disparar() {
-        if (balas > 0 && !recargando && puedeDisparar) {
-            proyectiles.add(new Proyectil(personaje.getX() + personaje.getAncho(), personaje.getY() + personaje.getAlto() / 2));
+        if (balas > 0 && !recargando) {
+            String rutaImagen;
+            if (personaje instanceof Heroe) {
+                rutaImagen = "C:\\Users\\ASUS\\OneDrive\\Escritorio\\Juego_heroes\\src\\recursos\\para_heroe.gif"; // Imagen del héroe
+            } else {
+                rutaImagen = "C:\\Users\\ASUS\\OneDrive\\Escritorio\\Juego_heroes\\src\\recursos\\para_villano.gif"; // Imagen del villano
+            }
+            proyectiles.add(new Proyectil(personaje.getX() + personaje.getAncho(), personaje.getY() + personaje.getAlto() / 2, personaje.getDaño(), rutaImagen));
             balas--;
             puedeDisparar = false;
             disparoTimer.start();
@@ -143,6 +154,11 @@ public class PanelJuego extends JPanel {
             }
         }
     }
+    
+    
+    
+    
+    
 
     private void iniciarRecarga() {
         recargando = true;
@@ -160,7 +176,11 @@ public class PanelJuego extends JPanel {
 
     private void mostrarMensajeVictoria() {
         JOptionPane.showMessageDialog(this, "¡Enhorabuena! Has derrotado al jefe. Puedes cerrar esta ventana.", "Victoria", JOptionPane.INFORMATION_MESSAGE);
+        // Cerrar la aplicación cuando se haga clic en OK
+        System.exit(0);
     }
+    
+    
 
     @Override
 protected void paintComponent(Graphics g) {

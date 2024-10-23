@@ -3,9 +3,10 @@ package nombreDelPaquete;
 import javax.swing.ImageIcon;
 import java.awt.Graphics;
 
+
 public class Jefe {
     private int x, y;
-    private int ancho = 35, alto = 35; // Ajustar tamaño del jefe
+    private int ancho = 70, alto = 70; // Dimensiones del jefe ajustadas
     private int vida;
     private boolean visible;
     private int panelAncho, panelAlto;
@@ -13,7 +14,6 @@ public class Jefe {
     private int velocidadBase = 2; // Velocidad base del jefe
     private int dx, dy; // Velocidad del jefe en x e y
     private int margen = 50; // Margen para evitar las esquinas
-    private long ultimoCambioDireccion; // Tiempo del último cambio de dirección
 
     public Jefe(int x, int y, int vida) {
         this.x = x;
@@ -23,7 +23,6 @@ public class Jefe {
         imagen = new ImageIcon("C:\\Users\\ASUS\\OneDrive\\Escritorio\\Juego_heroes\\src\\recursos\\jiren.gif"); // Ruta a tu imagen GIF
         dx = velocidadBase;
         dy = velocidadBase;
-        ultimoCambioDireccion = System.currentTimeMillis(); // Inicializar el tiempo del último cambio de dirección
     }
 
     public void move() {
@@ -35,12 +34,6 @@ public class Jefe {
         }
         if (y <= margen || y >= panelAlto - alto - margen) {
             dy = -dy;
-        }
-
-        // Asegurarse de que el jefe no se quede quieto
-        if (System.currentTimeMillis() - ultimoCambioDireccion > 500) { // Cambiar dirección cada 500ms
-            cambiarDireccion(velocidad);
-            ultimoCambioDireccion = System.currentTimeMillis();
         }
 
         x += dx;
@@ -64,11 +57,6 @@ public class Jefe {
         }
     }
 
-    private void cambiarDireccion(int velocidad) {
-        dx = (int) (Math.random() * velocidad * 2 - velocidad);
-        dy = (int) (Math.random() * velocidad * 2 - velocidad);
-    }
-
     public void draw(Graphics g) {
         if (visible) {
             g.drawImage(imagen.getImage(), x, y, ancho, alto, null);
@@ -77,6 +65,7 @@ public class Jefe {
 
     public void reducirVida(int daño) {
         vida -= daño;
+        System.out.println("Daño recibido: " + daño + ", Vida restante: " + vida);
         if (vida <= 0) {
             visible = false;
             System.out.println("¡Jefe derrotado!");
@@ -115,4 +104,8 @@ public class Jefe {
         this.panelAncho = ancho;
         this.panelAlto = alto;
     }
+    
+
+
+
 }
