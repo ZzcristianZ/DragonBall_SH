@@ -91,7 +91,7 @@ public class PanelJuego extends JPanel {
             }
         });
         movimientoJefeTimer.start();
-        fondo = new ImageIcon("C:\\Users\\ASUS\\OneDrive\\Escritorio\\Juego_heroes\\src\\recursos\\fondo.jpg"); // Ruta a tu imagen de fondo
+        fondo = new ImageIcon("src\\recursos\\fondo.jpg"); // Ruta a tu imagen de fondo
 
     }
 
@@ -141,9 +141,9 @@ public class PanelJuego extends JPanel {
         if (balas > 0 && !recargando) {
             String rutaImagen;
             if (personaje instanceof Heroe) {
-                rutaImagen = "C:\\Users\\ASUS\\OneDrive\\Escritorio\\Juego_heroes\\src\\recursos\\para_heroe.gif"; // Imagen del héroe
+                rutaImagen = "src\\recursos\\para_heroe.gif"; // Imagen del héroe
             } else {
-                rutaImagen = "C:\\Users\\ASUS\\OneDrive\\Escritorio\\Juego_heroes\\src\\recursos\\para_villano.gif"; // Imagen del villano
+                rutaImagen = "src\\recursos\\para_villano.gif"; // Imagen del villano
             }
             proyectiles.add(new Proyectil(personaje.getX() + personaje.getAncho(), personaje.getY() + personaje.getAlto() / 2, personaje.getDaño(), rutaImagen));
             balas--;

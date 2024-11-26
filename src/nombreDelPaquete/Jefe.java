@@ -20,7 +20,7 @@ public class Jefe {
         this.y = y;
         this.vida = vida;
         this.visible = true;
-        imagen = new ImageIcon("C:\\Users\\ASUS\\OneDrive\\Escritorio\\Juego_heroes\\src\\recursos\\jiren.gif"); // Ruta a tu imagen GIF
+        imagen = new ImageIcon("src\\recursos\\jiren.gif"); // Ruta a tu imagen GIF
         dx = velocidadBase;
         dy = velocidadBase;
     }

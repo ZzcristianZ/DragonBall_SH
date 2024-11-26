@@ -9,7 +9,7 @@ public class Heroe extends Personaje {
 
     public Heroe(int x, int y) {
         super(x, y, 100, 10); // Vida: 100, Daño: 10
-        ImageIcon originalGif = new ImageIcon("C:\\Users\\ASUS\\OneDrive\\Escritorio\\Juego_heroes\\src\\recursos\\heroe_goku.gif");
+        ImageIcon originalGif = new ImageIcon("src/recursos/heroe_goku.gif");
         Image imagenRedimensionada = originalGif.getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT);
         imagen = new ImageIcon(imagenRedimensionada);
         this.ancho = 35;

@@ -8,7 +8,7 @@ public class Villano extends Personaje {
 
     public Villano(int x, int y) {
         super(x, y, 150, 15); // Vida: 150, Daño: 25
-        imagen = new ImageIcon("C:\\Users\\ASUS\\OneDrive\\Escritorio\\Juego_heroes\\src\\recursos\\villano.gif"); // Ruta a tu imagen GIF
+        imagen = new ImageIcon("src\\recursos\\villano.gif"); // Ruta a tu imagen GIF
         this.ancho = 35;
         this.alto = 35;
     }
