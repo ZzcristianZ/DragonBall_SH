@@ -20,4 +20,5 @@ public class Heroe extends Personaje {
     public void draw(Graphics g) {
         g.drawImage(imagen.getImage(), x, y, ancho, alto, null);
     }
+    
 }

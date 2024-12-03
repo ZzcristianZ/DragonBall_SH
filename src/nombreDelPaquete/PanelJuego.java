@@ -36,7 +36,7 @@ public class PanelJuego extends JPanel {
 
         
 
-        jefe = new Jefe(650, 250, 500); // Vida del jefe: 200
+        jefe = new Jefe(650, 250, 500); // Vida del jefe: 500
         jefe.setPanelSize(800, 600);
         proyectiles = new ArrayList<>();
         balas = 30;
@@ -44,7 +44,7 @@ public class PanelJuego extends JPanel {
         puedeDisparar = true;
         espacioPresionado = false;
         juegoTerminado = false;
-
+ 
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
