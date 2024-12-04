@@ -6,8 +6,8 @@ import java.awt.Image;
 
 public class Proyectil {
     private int x, y;
-    private int ancho = 30, alto = 30; // Ajusta el tamaño si es necesario
-    private final int velocidad = 5; // Velocidad constante del proyectil
+    private int ancho = 30, alto = 30;
+    private final int velocidad = 5; 
     private int daño;
     private ImageIcon imagen;
 
@@ -15,7 +15,7 @@ public class Proyectil {
         this.x = x;
         this.y = y;
         this.daño = daño;
-        imagen = new ImageIcon(rutaImagen); // Cargar la imagen específica
+        imagen = new ImageIcon(rutaImagen); 
         Image imagenRedimensionada = imagen.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT);
         imagen = new ImageIcon(imagenRedimensionada);
     }

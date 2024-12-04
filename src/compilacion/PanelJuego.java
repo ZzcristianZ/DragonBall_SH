@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class PanelJuego extends JPanel {
 
-    public static ArrayList<Proyectil> proyectiles;  // Cambiado a public static
+    public static ArrayList<Proyectil> proyectiles;  
     private Personaje personaje;
     private Jefe jefe;
     private int balas;
