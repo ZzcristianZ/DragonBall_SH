@@ -43,7 +43,7 @@ public class Heroe extends Personaje {
                 @Override
                 public void run() {
                     if (proyectilesLanzados < 10) {
-                        Proyectil kamehameha = new Proyectil(x + ancho, y + alto / 2, 8, rutaKamehameha);
+                        Proyectil kamehameha = new Proyectil(x + ancho, y + alto / 2, 15, rutaKamehameha); // Asegurarse de usar el constructor correcto
                         PanelJuego.proyectiles.add(kamehameha);
                         proyectilesLanzados++;
                     } else {

@@ -2,8 +2,6 @@ package compilacion;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -21,8 +19,10 @@ public class PanelJuego extends JPanel {
     private Timer recargaTimer;
     private Timer disparoTimer;
     private Timer movimientoJefeTimer;
-    private Timer habilitarKamehamehaTimer;  
+    private Timer habilitarKamehamehaTimer;
+    private Timer habilitarCaosTimer;
     private boolean puedeUsarKamehameha = true; 
+    private boolean puedeUsarCaos = true; 
     private ImageIcon fondo;
     private String nombrePersonaje;
     private boolean mostrandoRecargandoMensaje = false;
@@ -30,10 +30,12 @@ public class PanelJuego extends JPanel {
     public PanelJuego() {
         setFocusable(true);
         setBackground(Color.BLACK);
-        seleccionarPersonaje();
-
+        
         jefe = new Jefe(650, 250, 500); 
         jefe.setPanelSize(800, 600);
+
+        seleccionarPersonaje();
+
         proyectiles = new ArrayList<>();
         balas = 30;
         recargando = false;
@@ -51,23 +53,28 @@ public class PanelJuego extends JPanel {
                         disparar();
                     }
                 }
-
-                // Controles para las habilidades especiales
                 if (personaje instanceof Heroe) {
-                    if (e.getKeyCode() == KeyEvent.VK_E) {
-                        Heroe heroe = (Heroe) personaje;
-                        if (puedeUsarKamehameha && heroe.getKamehamehaUsos() < Heroe.getKamehamehaMaxUsos()) {
-                            heroe.kamehameha();
-                            puedeUsarKamehameha = false;  // Desactivar el uso del Kamehameha
-                            habilitarKamehamehaTimer = new Timer(5000, new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-                                    puedeUsarKamehameha = true;  // Permitir el uso del Kamehameha después de 5 segundos
-                                    habilitarKamehamehaTimer.stop();
-                                }
-                            });
-                            habilitarKamehamehaTimer.start();
-                        }
+                    Heroe heroe = (Heroe) personaje;
+                    if (e.getKeyCode() == KeyEvent.VK_E && puedeUsarKamehameha && heroe.getKamehamehaUsos() < Heroe.getKamehamehaMaxUsos()) {
+                        heroe.kamehameha();
+                        puedeUsarKamehameha = false;
+                        habilitarKamehamehaTimer = new Timer(5000, _ -> {
+                            puedeUsarKamehameha = true;
+                        });
+                        habilitarKamehamehaTimer.setRepeats(false);
+                        habilitarKamehamehaTimer.start();
+                    }
+                }
+                if (personaje instanceof Villano) {
+                    Villano villano = (Villano) personaje;
+                    if (e.getKeyCode() == KeyEvent.VK_E && puedeUsarCaos && villano.getCaosUsos() < Villano.getCaosMaxUsos()) {
+                        villano.explosionCaos();
+                        puedeUsarCaos = false;
+                        habilitarCaosTimer = new Timer(5000, _ -> {
+                            puedeUsarCaos = true;
+                        });
+                        habilitarCaosTimer.setRepeats(false);
+                        habilitarCaosTimer.start();
                     }
                 }
             }
@@ -84,7 +91,6 @@ public class PanelJuego extends JPanel {
         recargaTimer = new Timer(3000, _ -> recargar());
         recargaTimer.setRepeats(false);
 
-
         disparoTimer = new Timer(180, _ -> {
             puedeDisparar = true;
             if (espacioPresionado) {
@@ -95,27 +101,27 @@ public class PanelJuego extends JPanel {
         movimientoJefeTimer = new Timer(50, _ -> jefe.move());
         movimientoJefeTimer.start();
         fondo = new ImageIcon("src\\recursos\\fondo.jpg");
-
     }
 
     private void seleccionarPersonaje() {
         String[] opciones = {"Héroe", "Villano"};
         int eleccion = JOptionPane.showOptionDialog(this, "Selecciona tu personaje", "Selección de Personaje",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
-
+    
         if (eleccion == JOptionPane.CLOSED_OPTION) {
             System.exit(0); // Salir si se cierra la ventana sin seleccionar
         }
-
+    
         if (eleccion == 0) {
             personaje = new Heroe(50, 300);
             nombrePersonaje = "Goku";
         } else {
-            personaje = new Villano(50, 300);
+            personaje = new Villano(50, 300, jefe); // Asegúrate de pasar jefe aquí
             nombrePersonaje = "Zamasu";
         }
         personaje.setPanelSize(800, 600); // Ajustar tamaño del panel
     }
+    
 
     public void updateGame() {
         if (!juegoTerminado) {
@@ -130,7 +136,6 @@ public class PanelJuego extends JPanel {
             }
             proyectiles.removeAll(proyectilesABorrar);
 
-            // Verificar si el jefe ha sido derrotado
             if (jefe.haSidoDerrotado()) {
                 juegoTerminado = true;
                 mostrarMensajeVictoria();
@@ -170,14 +175,12 @@ public class PanelJuego extends JPanel {
 
     private void mostrarMensajeVictoria() {
         JOptionPane.showMessageDialog(this, "¡Enhorabuena! Has derrotado al jefe. Puedes cerrar esta ventana.", "Victoria", JOptionPane.INFORMATION_MESSAGE);
-        // Cerrar la aplicación cuando se haga clic en OK
         System.exit(0);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        // Dibujar la imagen de fondo
         g.drawImage(fondo.getImage(), 0, 0, getWidth(), getHeight(), null);
 
         personaje.draw(g);
@@ -186,29 +189,24 @@ public class PanelJuego extends JPanel {
             proyectil.draw(g);
         }
 
-        // Dibujar la vida del jefe centrada en la parte superior
         g.setColor(Color.RED);
-        g.setFont(new Font("Arial", Font.BOLD, 20)); // Aumentar tamaño del texto
+        g.setFont(new Font("Arial", Font.BOLD, 20));
         String vidaTexto = "Vida de JIREN: " + jefe.getVida();
         int textoAncho = g.getFontMetrics().stringWidth(vidaTexto);
-        g.drawString(vidaTexto, (getWidth() - textoAncho) / 2, 20); // Centrar el texto
+        g.drawString(vidaTexto, (getWidth() - textoAncho) / 2, 20);
 
-        // Dibujar el nombre y la vida del personaje encima de la cantidad de balas
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString(nombrePersonaje + " Vida: " + personaje.getVida(), 10, 20);
         
-        // Dibujar la cantidad de balas en la esquina superior izquierda
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString("Balas: " + balas, 10, 50);
 
-        // Dibujar la cantidad de superpoderes restantes
         if (personaje instanceof Heroe) {
             Heroe heroe = (Heroe) personaje;
             g.drawString("Super: " + (Heroe.getKamehamehaMaxUsos() - heroe.getKamehamehaUsos()), 10, 80);
         }
 
-        // Mostrar mensaje de recarga
         if (mostrandoRecargandoMensaje) {
             g.setColor(Color.YELLOW);
             g.setFont(new Font("Arial", Font.BOLD, 20));
