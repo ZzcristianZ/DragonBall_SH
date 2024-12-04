@@ -1,4 +1,4 @@
-package nombreDelPaquete;
+package compilacion;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -91,6 +91,11 @@ public class Personaje {
 
     public int getVida() {
         return vida;
+    }
+
+    // Método para reducir la vida
+    public void reducirVida(int daño) {
+        vida -= daño;
     }
 
     // Añadir método getDaño

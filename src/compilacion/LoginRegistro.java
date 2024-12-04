@@ -1,11 +1,11 @@
-package nombreDelPaquete;
+package compilacion;
 
 import javax.swing.*;
+
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import nombreDelPaquete.DatabaseManager;
 
 public class LoginRegistro extends JFrame {
     private JTextField usuarioCampo;
@@ -25,11 +25,11 @@ public class LoginRegistro extends JFrame {
         panel.setLayout(new GridLayout(3, 2));
 
         // Campos de texto
-        panel.add(new JLabel("Usuario:"));
+        panel.add(new JLabel("          Usuario:"));
         usuarioCampo = new JTextField();
         panel.add(usuarioCampo);
 
-        panel.add(new JLabel("Contraseña:"));
+        panel.add(new JLabel("          Contraseña:"));
         contraseñaCampo = new JPasswordField();
         panel.add(contraseñaCampo);
 

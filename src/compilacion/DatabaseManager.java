@@ -1,4 +1,4 @@
-package nombreDelPaquete;
+package compilacion;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,4 +1,4 @@
-package nombreDelPaquete;
+package compilacion;
 
 import javax.swing.ImageIcon;
 import java.awt.Graphics;

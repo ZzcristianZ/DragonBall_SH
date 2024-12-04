@@ -1,4 +1,4 @@
-package nombreDelPaquete;
+package compilacion;
 
 import javax.swing.ImageIcon;
 import java.awt.Graphics;
@@ -6,24 +6,19 @@ import java.awt.Image;
 
 public class Proyectil {
     private int x, y;
-    private int ancho = 30, alto = 30; // Dimensiones del proyectil ajustadas
-    private int velocidad = 5;
+    private int ancho = 30, alto = 30; // Ajusta el tamaño si es necesario
+    private final int velocidad = 5; // Velocidad constante del proyectil
     private int daño;
     private ImageIcon imagen;
-    
-
-    
-
 
     public Proyectil(int x, int y, int daño, String rutaImagen) {
         this.x = x;
         this.y = y;
         this.daño = daño;
         imagen = new ImageIcon(rutaImagen); // Cargar la imagen específica
-        Image imagenRedimensionada = imagen.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+        Image imagenRedimensionada = imagen.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT);
         imagen = new ImageIcon(imagenRedimensionada);
     }
-    
 
     public void move() {
         x += velocidad;

@@ -1,4 +1,4 @@
-package nombreDelPaquete;
+package compilacion;
 
 import javax.swing.*;
 import java.awt.*;
