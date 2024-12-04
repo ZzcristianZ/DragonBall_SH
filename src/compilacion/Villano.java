@@ -46,10 +46,10 @@ public class Villano extends Personaje {
                         int dx = jefe.getX() + jefe.getAncho() / 2 - x - ancho / 2;
                         int dy = jefe.getY() + jefe.getAlto() / 2 - y - alto / 2;
                         double distancia = Math.sqrt(dx * dx + dy * dy);
-                        int velocidadX = (int) (dx / distancia * 5); // Ajustar la velocidad según la dirección
-                        int velocidadY = (int) (dy / distancia * 5);
+                        double velocidadX = dx / distancia * 5; // Ajustar la velocidad según la dirección
+                        double velocidadY = dy / distancia * 5;
 
-                        Proyectil caos = new Proyectil(x + ancho / 2, y + alto / 2, velocidadX, velocidadY, 10, rutaExplosiónCaos); // Cada proyectil hace 10 de daño
+                        Proyectil caos = new Proyectil(x + ancho / 2, y + alto / 2, (int)velocidadX, (int)velocidadY, 10, rutaExplosiónCaos);
                         PanelJuego.proyectiles.add(caos);
                         proyectilesLanzados++;
                     } else {

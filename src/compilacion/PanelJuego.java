@@ -205,6 +205,9 @@ public class PanelJuego extends JPanel {
         if (personaje instanceof Heroe) {
             Heroe heroe = (Heroe) personaje;
             g.drawString("Super: " + (Heroe.getKamehamehaMaxUsos() - heroe.getKamehamehaUsos()), 10, 80);
+        }else if (personaje instanceof Villano) { 
+            Villano villano = (Villano) personaje;
+            g.drawString("Caos: " + (Villano.getCaosMaxUsos() - villano.getCaosUsos()), 10, 80); 
         }
 
         if (mostrandoRecargandoMensaje) {

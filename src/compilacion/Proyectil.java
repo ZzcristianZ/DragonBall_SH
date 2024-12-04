@@ -5,8 +5,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 public class Proyectil {
-    private int x, y;
-    private int dx, dy;
+    private double x, y;
+    private double dx, dy;
     private int ancho = 30, alto = 30;
     private int daño;
     private ImageIcon imagen;
@@ -41,12 +41,12 @@ public class Proyectil {
     }
 
     public void draw(Graphics g) {
-        g.drawImage(imagen.getImage(), x, y, ancho, alto, null);
+        g.drawImage(imagen.getImage(), (int)x, (int)y, ancho, alto, null);
     }
 
     public boolean haImpactado(Jefe jefe) {
-        int centroX = x + ancho / 2;
-        int centroY = y + alto / 2;
+        int centroX = (int)x + ancho / 2;
+        int centroY = (int)y + alto / 2;
 
         return centroX >= jefe.getX() && centroX <= jefe.getX() + jefe.getAncho() &&
                centroY >= jefe.getY() && centroY <= jefe.getY() + jefe.getAlto();
@@ -57,10 +57,10 @@ public class Proyectil {
     }
 
     public int getX() {
-        return x;
+        return (int)x;
     }
 
     public int getY() {
-        return y;
+        return (int)y;
     }
 }

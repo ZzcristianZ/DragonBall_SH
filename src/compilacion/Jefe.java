@@ -2,7 +2,7 @@ package compilacion;
 
 import javax.swing.ImageIcon;
 import java.awt.Graphics;
-
+import java.util.Random;
 
 public class Jefe {
     private int x, y;
@@ -11,9 +11,10 @@ public class Jefe {
     private boolean visible;
     private int panelAncho, panelAlto;
     private ImageIcon imagen;
-    private int velocidadBase = 2; // Velocidad base del jefe
-    private int dx, dy; // Velocidad del jefe en x e y
+    private double velocidadBase = 1.0; // Velocidad base del jefe ajustada a 1.0
+    private double dx, dy; // Ajustamos dx y dy a double
     private int margen = 50; // Margen para evitar las esquinas
+    private Random random; // Aseguramos que random sea una variable de instancia
 
     public Jefe(int x, int y, int vida) {
         this.x = x;
@@ -23,38 +24,62 @@ public class Jefe {
         imagen = new ImageIcon("src\\recursos\\jiren.gif"); // Ruta a tu imagen GIF
         dx = velocidadBase;
         dy = velocidadBase;
+        random = new Random(); // Inicializamos random en el constructor
+    }
+
+    public void setPanelSize(int ancho, int alto) {
+        this.panelAncho = ancho;
+        this.panelAlto = alto;
     }
 
     public void move() {
-        int velocidad = (int) (velocidadBase * 1.5);
-
-        // Cambiar de dirección si golpea los límites del panel o se acerca al margen
+        double velocidad = velocidadBase * 1.5;
+    
+        // Movimiento aleatorio dentro del panel
         if (x <= margen || x >= panelAncho - ancho - margen) {
             dx = -dx;
         }
         if (y <= margen || y >= panelAlto - alto - margen) {
             dy = -dy;
         }
-
-        x += dx;
-        y += dy;
-
-        // Cambiar patrones de movimiento basado en la vida
+    
+        // Cambiar de dirección basado en la vida
         if (vida > 150) {
             // Movimiento sencillo y constante en diagonal
+            x += dx;
+            y += dy;
         } else if (vida > 100) {
             // Movimiento en zigzag
-            x += (Math.sin(y * 0.1) * velocidad);
-            y += (Math.cos(x * 0.1) * velocidad);
+            x += Math.sin(y * 0.1) * velocidad;
+            y += Math.cos(x * 0.1) * velocidad;
         } else if (vida > 50) {
             // Movimiento circular
-            x += (Math.cos(System.currentTimeMillis() * 0.001) * velocidad);
-            y += (Math.sin(System.currentTimeMillis() * 0.001) * velocidad);
+            x += Math.cos(System.currentTimeMillis() * 0.001) * velocidad;
+            y += Math.sin(System.currentTimeMillis() * 0.001) * velocidad;
         } else {
             // Movimiento rápido y errático
-            x += (Math.random() * velocidad * 2 - velocidad);
-            y += (Math.random() * velocidad * 2 - velocidad);
+            x += random.nextDouble() * velocidad * 2 - velocidad;
+            y += random.nextDouble() * velocidad * 2 - velocidad;
         }
+    
+        // Ajustar movimiento para esquivar proyectiles con aleatoriedad
+        for (Proyectil proyectil : PanelJuego.proyectiles) {
+            double distanciaProyectil = Math.sqrt(Math.pow(proyectil.getX() - x, 2) + Math.pow(proyectil.getY() - y, 2));
+            if (distanciaProyectil < 100) { // Rango para empezar a esquivar
+                dx += (x - proyectil.getX()) * 0.05 * (random.nextBoolean() ? 1 : -1); // Añadir aleatoriedad
+                dy += (y - proyectil.getY()) * 0.05 * (random.nextBoolean() ? 1 : -1);
+            }
+        }
+    
+        // Aplicar movimiento
+        x += dx;
+        y += dy;
+    
+        // Asegurarse de que el jefe se mantenga dentro de los límites del panel
+        if (x < 0) x = 0;
+        if (y < 0) y = 0;
+        if (x + ancho > panelAncho) x = panelAncho - ancho;
+        if (y + alto > panelAlto) y = panelAlto - alto;
     }
 
     public void draw(Graphics g) {
@@ -99,13 +124,4 @@ public class Jefe {
     public int getAlto() {
         return alto;
     }
-
-    public void setPanelSize(int ancho, int alto) {
-        this.panelAncho = ancho;
-        this.panelAlto = alto;
-    }
-    
-
-
-
 }
