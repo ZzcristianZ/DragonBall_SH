@@ -11,10 +11,10 @@ public class Jefe {
     private boolean visible;
     private int panelAncho, panelAlto;
     private ImageIcon imagen;
-    private double velocidadBase = 1.0; // Velocidad base del jefe ajustada a 1.0
-    private double dx, dy; // Ajustamos dx y dy a double
+    private double velocidadBase = 1.0; 
+    private double dx, dy; 
     private int margen = 50; // Margen para evitar las esquinas
-    private Random random; // Aseguramos que random sea una variable de instancia
+    private Random random; 
 
     public Jefe(int x, int y, int vida) {
         this.x = x;
@@ -35,52 +35,61 @@ public class Jefe {
     public void move() {
         double velocidad = velocidadBase * 1.5;
     
-        // Movimiento aleatorio dentro del panel
-        if (x <= margen || x >= panelAncho - ancho - margen) {
-            dx = -dx;
+        // Verificar si el jefe alcanza los límites y ajustar dirección
+        if (x <= margen) {
+            x = margen;
+            dx = Math.abs(dx); // Mover hacia la derecha
         }
-        if (y <= margen || y >= panelAlto - alto - margen) {
-            dy = -dy;
+        if (x >= panelAncho - ancho - margen) {
+            x = panelAncho - ancho - margen;
+            dx = -Math.abs(dx); // Mover hacia la izquierda
+        }
+        if (y <= margen) {
+            y = margen;
+            dy = Math.abs(dy); // Mover hacia abajo
+        }
+        if (y >= panelAlto - alto - margen) {
+            y = panelAlto - alto - margen;
+            dy = -Math.abs(dy); // Mover hacia arriba
         }
     
-        // Cambiar de dirección basado en la vida
+        // Ajustar comportamiento según la vida
         if (vida > 150) {
-            // Movimiento sencillo y constante en diagonal
-            x += dx;
-            y += dy;
+            // Movimiento en diagonal constante
+            x += dx * velocidad;
+            y += dy * velocidad;
         } else if (vida > 100) {
-            // Movimiento en zigzag
-            x += Math.sin(y * 0.1) * velocidad;
-            y += Math.cos(x * 0.1) * velocidad;
-        } else if (vida > 50) {
-            // Movimiento circular
-            x += Math.cos(System.currentTimeMillis() * 0.001) * velocidad;
-            y += Math.sin(System.currentTimeMillis() * 0.001) * velocidad;
+            // Movimiento en zigzag dinámico
+            x += Math.sin(y * 0.1) * velocidad + dx * 0.9;
+            y += Math.cos(x * 0.1) * velocidad + dy * 0.9;
         } else {
-            // Movimiento rápido y errático
-            x += random.nextDouble() * velocidad * 2 - velocidad;
-            y += random.nextDouble() * velocidad * 2 - velocidad;
+            // Movimiento errático, nunca quieto
+            dx += (random.nextDouble() - 0.5) * 0.2; // Pequeña aleatoriedad
+            dy += (random.nextDouble() - 0.5) * 0.2;
+            x += dx * velocidad * 1.2;
+            y += dy * velocidad * 1.2;
         }
     
-        // Ajustar movimiento para esquivar proyectiles con aleatoriedad
+        // Esquivar proyectiles
         for (Proyectil proyectil : PanelJuego.proyectiles) {
             double distanciaProyectil = Math.sqrt(Math.pow(proyectil.getX() - x, 2) + Math.pow(proyectil.getY() - y, 2));
-            if (distanciaProyectil < 100) { // Rango para empezar a esquivar
-                dx += (x - proyectil.getX()) * 0.05 * (random.nextBoolean() ? 1 : -1); // Añadir aleatoriedad
-                dy += (y - proyectil.getY()) * 0.05 * (random.nextBoolean() ? 1 : -1);
+            if (distanciaProyectil < 70) { // Rango de esquiva
+                double escapeX = x - proyectil.getX();
+                double escapeY = y - proyectil.getY();
+                double magnitudEscape = Math.sqrt(escapeX * escapeX + escapeY * escapeY);
+    
+                // Normalizar vector y añadir componente aleatoria para el esquive
+                dx += (escapeX / magnitudEscape) * 0.5;
+                dy += (escapeY / magnitudEscape) * 0.5;
             }
         }
     
-        // Aplicar movimiento
+        // Aplicar movimiento continuo
         x += dx;
         y += dy;
-    
-        // Asegurarse de que el jefe se mantenga dentro de los límites del panel
-        if (x < 0) x = 0;
-        if (y < 0) y = 0;
-        if (x + ancho > panelAncho) x = panelAncho - ancho;
-        if (y + alto > panelAlto) y = panelAlto - alto;
     }
+    
+    
 
     public void draw(Graphics g) {
         if (visible) {

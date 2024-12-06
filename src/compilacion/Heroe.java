@@ -9,7 +9,7 @@ import java.util.TimerTask;
 public class Heroe extends Personaje {
     private ImageIcon imagen;
     private int kamehamehaUsos = 0; // Contador de usos del Kamehameha
-    public static final int KAMEHAMEHA_MAX_USOS = 3; // Máximo de usos permitidos
+    public static final int KAMEHAMEHA_MAX_USOS = 5; // Máximo de usos permitidos
 
     public Heroe(int x, int y) {
         super(x, y, 100, 10); // Vida: 100, Daño: 10
@@ -43,7 +43,7 @@ public class Heroe extends Personaje {
                 @Override
                 public void run() {
                     if (proyectilesLanzados < 10) {
-                        Proyectil kamehameha = new Proyectil(x + ancho, y + alto / 2, 15, rutaKamehameha); // Asegurarse de usar el constructor correcto
+                        Proyectil kamehameha = new Proyectil(x + ancho, y + alto / 2, 15, rutaKamehameha); 
                         PanelJuego.proyectiles.add(kamehameha);
                         proyectilesLanzados++;
                     } else {
@@ -56,7 +56,7 @@ public class Heroe extends Personaje {
         }
     }
 
-    // Métodos getter para acceder a kamehamehaUsos y KAMEHAMEHA_MAX_USOS
+    // Métodos getter 
     public int getKamehamehaUsos() {
         return kamehamehaUsos;
     }

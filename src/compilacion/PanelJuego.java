@@ -174,7 +174,7 @@ public class PanelJuego extends JPanel {
     }
 
     private void mostrarMensajeVictoria() {
-        JOptionPane.showMessageDialog(this, "¡Enhorabuena! Has derrotado al jefe. Puedes cerrar esta ventana.", "Victoria", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "🎉¡Enhorabuena!🎉 Has derrotado al jefe.", "Victoria", JOptionPane.INFORMATION_MESSAGE);
         System.exit(0);
     }
 

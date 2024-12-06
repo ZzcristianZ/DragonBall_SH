@@ -27,8 +27,8 @@ public class Proyectil {
     public Proyectil(int x, int y, int daño, String rutaImagen) {
         this.x = x;
         this.y = y;
-        this.dx = 5; // Velocidad por defecto hacia la derecha
-        this.dy = 0; // Sin movimiento vertical por defecto
+        this.dx = 5;
+        this.dy = 0;       
         this.daño = daño;
         imagen = new ImageIcon(rutaImagen); 
         Image imagenRedimensionada = imagen.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT);

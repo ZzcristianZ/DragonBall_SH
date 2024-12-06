@@ -26,16 +26,16 @@ public class Personaje {
         dy = 0;
 
         if (teclasPresionadas.contains(KeyEvent.VK_A)) {
-            dx -= 3; // Aumentar la velocidad a 3
+            dx -= 3; 
         }
         if (teclasPresionadas.contains(KeyEvent.VK_D)) {
-            dx += 3; // Aumentar la velocidad a 3
+            dx += 3; 
         }
         if (teclasPresionadas.contains(KeyEvent.VK_W)) {
-            dy -= 3; // Aumentar la velocidad a 3
+            dy -= 3; 
         }
         if (teclasPresionadas.contains(KeyEvent.VK_S)) {
-            dy += 3; // Aumentar la velocidad a 3
+            dy += 3; 
         }
 
         x += dx;

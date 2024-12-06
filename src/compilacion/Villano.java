@@ -9,7 +9,7 @@ import java.util.TimerTask;
 public class Villano extends Personaje {
     private ImageIcon imagen;
     private int caosUsos = 0; // Contador de usos de la Explosión de Caos
-    public static final int CAOS_MAX_USOS = 3; // Máximo de usos permitidos
+    public static final int CAOS_MAX_USOS = 5; // Máximo de usos permitidos
     private Jefe jefe; // Referencia al jefe
 
     public Villano(int x, int y, Jefe jefe) {
