@@ -1,14 +1,14 @@
 package compilacion;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.*;
 
 public class PanelJuego extends JPanel {
 
-    public static ArrayList<Proyectil> proyectiles;  
+    public static ArrayList<Proyectil> proyectiles;
     private Personaje personaje;
     private Jefe jefe;
     private int balas;
@@ -58,7 +58,7 @@ public class PanelJuego extends JPanel {
                     if (e.getKeyCode() == KeyEvent.VK_E && puedeUsarKamehameha && heroe.getKamehamehaUsos() < Heroe.getKamehamehaMaxUsos()) {
                         heroe.kamehameha();
                         puedeUsarKamehameha = false;
-                        habilitarKamehamehaTimer = new Timer(5000, _ -> {
+                        habilitarKamehamehaTimer = new Timer(5000, r -> {
                             puedeUsarKamehameha = true;
                         });
                         habilitarKamehamehaTimer.setRepeats(false);
@@ -70,7 +70,7 @@ public class PanelJuego extends JPanel {
                     if (e.getKeyCode() == KeyEvent.VK_E && puedeUsarCaos && villano.getCaosUsos() < Villano.getCaosMaxUsos()) {
                         villano.explosionCaos();
                         puedeUsarCaos = false;
-                        habilitarCaosTimer = new Timer(5000, _ -> {
+                        habilitarCaosTimer = new Timer(5000, r -> {
                             puedeUsarCaos = true;
                         });
                         habilitarCaosTimer.setRepeats(false);
@@ -88,17 +88,17 @@ public class PanelJuego extends JPanel {
             }
         });
 
-        recargaTimer = new Timer(3000, _ -> recargar());
+        recargaTimer = new Timer(3000, r -> recargar());
         recargaTimer.setRepeats(false);
 
-        disparoTimer = new Timer(180, _ -> {
+        disparoTimer = new Timer(180, r-> {
             puedeDisparar = true;
             if (espacioPresionado) {
                 disparar();
             }
         });
 
-        movimientoJefeTimer = new Timer(50, _ -> jefe.move());
+        movimientoJefeTimer = new Timer(50, r -> jefe.move());
         movimientoJefeTimer.start();
         fondo = new ImageIcon("src\\recursos\\fondo.jpg");
     }
